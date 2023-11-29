@@ -14,9 +14,13 @@ function CountriesTable({ countries, columnsConfig, onOpenModal }) {
     const getSortableValue = (country, key) => {
         if (key === 'name') {
             return country.name.common;
+        } else if (key === 'currencies') {
+            // Събира имената на всички валути в един стринг за сортиране
+            return Object.values(country.currencies || {}).map(c => c.name).join(', ');
         }
         return country[key];
     };
+
 
     const sortedCountries = useMemo(() => {
         let sortableCountries = [...countries];
