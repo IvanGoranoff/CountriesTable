@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, TableSortLabel } from '@mui/material';
-
+import CountryModal from './CountryModal'
 function CountriesTable({ countries }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const getSortableValue = (country, key) => {
         if (key === 'name') {
@@ -41,6 +43,13 @@ function CountriesTable({ countries }) {
         requestSort(property);
     };
 
+    // Функции за обработка на събитията
+    const handleRowClick = (country) => {
+        setSelectedCountry(country);
+        console.log(selectedCountry)
+        setModalOpen(true);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -74,7 +83,7 @@ function CountriesTable({ countries }) {
                     </TableHead>
                     <TableBody>
                         {sortedCountries.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((country) => (
-                            <TableRow key={country.cca3}>
+                            <TableRow key={country.cca3} onMouseDown={() => handleRowClick(country)}>
                                 <TableCell component="th" scope="row">
                                     <img src={country.flags.svg} alt={`${country.name.common} flag`} style={{ width: '50px' }} />
                                 </TableCell>
@@ -98,7 +107,10 @@ function CountriesTable({ countries }) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+            <CountryModal country={selectedCountry} open={modalOpen} onClose={() => setModalOpen(false)} />
+
         </Paper>
+
     );
 }
 
