@@ -25,11 +25,11 @@ function CountryModal({ country, open, onClose }) {
                 <Box display="flex" justifyContent="center" my={2}>
                     <img src={country?.flags?.svg} alt={`${country?.name?.common} flag`} style={{ width: '100px', borderRadius: '5px' }} />
                 </Box>
-                <Typography align="center">Столица: {country?.capital?.[0]}</Typography>
-                <Typography align="center">Континент: {country?.continents?.[0]}</Typography>
-                <Typography align="center">Валути: {Object.values(country?.currencies || {}).map(c => c.name).join(', ')}</Typography>
-                <Typography align="center">Код CCA3: {country?.cca3}</Typography>
-                <Typography align="center">Население: {country?.population?.toLocaleString()}</Typography>
+                <Typography align="center">Capital: {country?.capital?.[0]}</Typography>
+                <Typography align="center">Continent: {country?.continents?.[0]}</Typography>
+                <Typography align="center">Currencies: {Object.values(country?.currencies || {}).map(c => c.name).join(', ')}</Typography>
+                <Typography align="center">CCA3: {country?.cca3}</Typography>
+                <Typography align="center">Population: {country?.population?.toLocaleString()}</Typography>
             </Box>
         </Modal>
     );

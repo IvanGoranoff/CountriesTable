@@ -37,7 +37,7 @@ function SearchBar({ onSelectCountry }) {
         } else {
             setOptions([]); // Изчистване на опциите, ако няма вход
         }
-    }, 500); // 500 милисекунди забавяне
+    }, 500); // половин секунда забавяне
 
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function SearchBar({ onSelectCountry }) {
             onChange={(event, newValue) => {
                 onSelectCountry(newValue);
             }}
-            renderInput={(params) => <TextField {...params} label="Търсене на страна" />}
+            renderInput={(params) => <TextField {...params} label="Searching country..." />}
         />
     );
 }

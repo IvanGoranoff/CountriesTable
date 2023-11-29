@@ -15,14 +15,15 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const columnsConfig = [
-    { id: 'flags', label: 'Флаг', render: (data) => <img src={data.flags.svg} alt={`${data.name.common} flag`} style={{ width: '50px' }} /> },
-    { id: 'name', label: 'Име', render: (data) => data.name.common },
-    { id: 'capital', label: 'Столица', render: (data) => data.capital },
-    { id: 'continents', label: 'Континент', render: (data) => data.continents },
-    { id: 'currencies', label: 'Валути', render: (data) => Object.values(data.currencies || {}).map(c => c.name).join(', ') },
-    { id: 'cca3', label: 'Код CCA3', render: (data) => data.cca3 },
-    { id: 'population', label: 'Население', render: (data) => data.population.toLocaleString() },
+    { id: 'flags', label: 'Flag', render: (data) => <img src={data.flags.svg} alt={`${data.name.common} flag`} style={{ width: '50px' }} /> },
+    { id: 'name', label: 'Name', render: (data) => data.name.common },
+    { id: 'capital', label: 'Capital', render: (data) => data.capital },
+    { id: 'continents', label: 'Continent', render: (data) => data.continents.join(', ') },
+    { id: 'currencies', label: 'Currencies', render: (data) => Object.values(data.currencies || {}).map(c => c.name).join(', ') },
+    { id: 'cca3', label: 'CCA3', render: (data) => data.cca3 },
+    { id: 'population', label: 'Population', render: (data) => data.population.toLocaleString() },
   ];
+
 
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
