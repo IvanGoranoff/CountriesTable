@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, TableSortLabel } from '@mui/material';
 import CountryModal from './CountryModal'
-function CountriesTable({ countries }) {
+function CountriesTable({ countries, columnsConfig }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
@@ -80,17 +80,17 @@ function CountriesTable({ countries }) {
                 <Table stickyHeader aria-label="countries table">
                     <TableHead>
                         <TableRow>
-                            {['flags', 'name', 'capital', 'continents', 'currencies', 'cca3', 'population'].map((headCell) => (
+                            {columnsConfig.map((column) => (
                                 <TableCell
-                                    key={headCell}
-                                    sortDirection={sortConfig.key === headCell ? sortConfig.direction : false}
+                                    key={column.id}
+                                    sortDirection={sortConfig.key === column.id ? sortConfig.direction : false}
                                 >
                                     <TableSortLabel
-                                        active={sortConfig.key === headCell}
-                                        direction={sortConfig.key === headCell ? sortConfig.direction : 'asc'}
-                                        onClick={createSortHandler(headCell)}
+                                        active={sortConfig.key === column.id}
+                                        direction={sortConfig.key === column.id ? sortConfig.direction : 'asc'}
+                                        onClick={createSortHandler(column.id)}
                                     >
-                                        {headCell}
+                                        {column.label}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
@@ -99,15 +99,11 @@ function CountriesTable({ countries }) {
                     <TableBody>
                         {sortedCountries.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((country) => (
                             <TableRow className="clickable-row" key={country.cca3} onMouseDown={() => handleMouseDown(country)} onMouseUp={handleMouseUp}>
-                                <TableCell component="th" scope="row">
-                                    <img src={country.flags.svg} alt={`${country.name.common} flag`} style={{ width: '50px' }} />
-                                </TableCell>
-                                <TableCell>{country.name.common}</TableCell>
-                                <TableCell>{country.capital}</TableCell>
-                                <TableCell>{country.continents}</TableCell>
-                                <TableCell>{Object.values(country.currencies || {}).map(c => c.name).join(', ')}</TableCell>
-                                <TableCell>{country.cca3}</TableCell>
-                                <TableCell>{country.population.toLocaleString()}</TableCell>
+                                {columnsConfig.map((column) => (
+                                    <TableCell key={`${country.cca3}-${column.id}`}>
+                                        {column.render(country)}
+                                    </TableCell>
+                                ))}
                             </TableRow>
                         ))}
                     </TableBody>
