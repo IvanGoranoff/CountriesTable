@@ -60,7 +60,7 @@ function CountriesTable({ countries, columnsConfig, onOpenModal }) {
 
     const handleMouseUp = () => {
         setShowProgressBar(false);
-        clearTimeout(); // Спира таймера, ако потребителят пусне бутона преди времето
+        clearTimeout();
     };
 
     // const handleRowClick = (country) => {
