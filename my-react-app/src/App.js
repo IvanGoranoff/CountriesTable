@@ -34,6 +34,15 @@ function App() {
       .catch(error => console.error('Error fetching data: ', error));
   }, []);
 
+  const handleOpenModal = (country) => {
+    setSelectedCountry(country);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   const handleSelectCountry = (selectedCountry) => {
     // Филтриране на таблицата според избраната страна
     if (selectedCountry) {
@@ -56,8 +65,8 @@ function App() {
       </AppBar>
       <Container style={{ marginTop: '20px' }}>
         <SearchBar onSelectCountry={handleSelectCountry} />
-        <CountriesTable countries={filteredCountries} columnsConfig={columnsConfig} />
-        <CountryModal country={selectedCountry} open={modalOpen} onClose={() => setModalOpen(false)} />
+        <CountriesTable countries={filteredCountries} columnsConfig={columnsConfig} onOpenModal={handleOpenModal} />
+        <CountryModal country={selectedCountry} open={modalOpen} onClose={handleCloseModal} />
       </Container>
     </div>
   );

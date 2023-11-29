@@ -1,13 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, TableSortLabel } from '@mui/material';
 import CountryModal from './CountryModal'
-function CountriesTable({ countries, columnsConfig }) {
+
+function CountriesTable({ countries, columnsConfig, onOpenModal }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false);
     const [showProgressBar, setShowProgressBar] = useState(false);
+
+    // const [selectedCountry, setSelectedCountry] = useState(null);
+    // const [modalOpen, setModalOpen] = useState(false);
 
     const getSortableValue = (country, key) => {
         if (key === 'name') {
@@ -47,11 +49,10 @@ function CountriesTable({ countries, columnsConfig }) {
     const handleMouseDown = (country) => {
         setShowProgressBar(true);
         setTimeout(() => {
-            setSelectedCountry(country);
-            setModalOpen(true);
+            onOpenModal(country);
             setShowProgressBar(false);
         }, 1000); // 1 секунди
-    };
+    }
 
     const handleMouseUp = () => {
         setShowProgressBar(false);
@@ -118,7 +119,7 @@ function CountriesTable({ countries, columnsConfig }) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <CountryModal country={selectedCountry} open={modalOpen} onClose={() => setModalOpen(false)} />
+            {/* <CountryModal country={selectedCountry} open={modalOpen} onClose={() => setModalOpen(false)} /> */}
 
         </Paper>
 
