@@ -7,6 +7,7 @@ function CountriesTable({ countries }) {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [showProgressBar, setShowProgressBar] = useState(false);
 
     const getSortableValue = (country, key) => {
         if (key === 'name') {
@@ -43,12 +44,25 @@ function CountriesTable({ countries }) {
         requestSort(property);
     };
 
-    // Функции за обработка на събитията
-    const handleRowClick = (country) => {
-        setSelectedCountry(country);
-        console.log(selectedCountry)
-        setModalOpen(true);
+    const handleMouseDown = (country) => {
+        setShowProgressBar(true);
+        setTimeout(() => {
+            setSelectedCountry(country);
+            setModalOpen(true);
+            setShowProgressBar(false);
+        }, 1000); // 1 секунди
     };
+
+    const handleMouseUp = () => {
+        setShowProgressBar(false);
+        clearTimeout(); // Спира таймера, ако потребителят пусне бутона преди времето
+    };
+
+    // const handleRowClick = (country) => {
+    //     setSelectedCountry(country);
+    //     console.log(selectedCountry)
+    //     setModalOpen(true);
+    // };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -61,6 +75,7 @@ function CountriesTable({ countries }) {
 
     return (
         <Paper>
+            <div className="progress-bar" style={{ width: showProgressBar ? '100%' : '0%' }}></div>
             <TableContainer>
                 <Table stickyHeader aria-label="countries table">
                     <TableHead>
@@ -83,7 +98,7 @@ function CountriesTable({ countries }) {
                     </TableHead>
                     <TableBody>
                         {sortedCountries.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((country) => (
-                            <TableRow key={country.cca3} onMouseDown={() => handleRowClick(country)}>
+                            <TableRow className="clickable-row" key={country.cca3} onMouseDown={() => handleMouseDown(country)} onMouseUp={handleMouseUp}>
                                 <TableCell component="th" scope="row">
                                     <img src={country.flags.svg} alt={`${country.name.common} flag`} style={{ width: '50px' }} />
                                 </TableCell>

@@ -38,3 +38,12 @@
     transform: rotate(360deg);
   }
 }
+.progress-bar {
+  height: 5px;
+  background-color: blue;
+  width: 0%;
+  transition: width 2s linear;
+}
+.clickable-row {
+  cursor: pointer;
+}
