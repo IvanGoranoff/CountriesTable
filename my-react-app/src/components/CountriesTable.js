@@ -1,15 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, TableSortLabel } from '@mui/material';
-import CountryModal from './CountryModal'
+
 
 function CountriesTable({ countries, columnsConfig, onOpenModal }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
     const [showProgressBar, setShowProgressBar] = useState(false);
-
-    // const [selectedCountry, setSelectedCountry] = useState(null);
-    // const [modalOpen, setModalOpen] = useState(false);
 
     const getSortableValue = (country, key) => {
         if (key === 'name') {
